@@ -3,17 +3,14 @@ package com.lianwenhong.jetpackfamily.viewmodel
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModel
 import com.lianwenhong.jetpackfamily.util.LogUtils
 
 /**
  *  抽象针对Activity页面的ViewModel
  *  可在此ViewModel中实现一些基础功能，例如生命周期监测
  */
-open class ActivityViewModel(lifecycle: Lifecycle) : DefaultLifecycleObserver {
-
-    init {
-        lifecycle.addObserver(this)
-    }
+open class ActivityViewModel : ViewModel(), DefaultLifecycleObserver {
 
     override fun onCreate(owner: LifecycleOwner) {
         LogUtils.d("${owner.javaClass.simpleName} invoke onCreate")

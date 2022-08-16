@@ -27,9 +27,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.SecondActivity"
-            tools:ignore="DuplicateActivity" />
+        <activity android:name=".ui.SecondActivity" />
+        <!--        <activity-->
+        <!--            android:name=".ui.OtherActivity"-->
+        <!--            android:exported="true"-->
+        <!--            android:launchMode="singleTask"-->
+        <!--            android:theme="@style/Theme.JetpackFamily">-->
+        <!--                        <intent-filter>-->
+        <!--                            <action android:name="android.intent.action.MAIN" />-->
+
+        <!--                            <category android:name="android.intent.category.LAUNCHER" />-->
+        <!--                        </intent-filter>-->
+        <!--        </activity>-->
 
         <service android:name=".service.JOriginalService" />
     </application>

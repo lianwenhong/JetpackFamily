@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Jetpack全家桶</string>
+    <string name="plus">+1</string>
+    <string name="subtraction">-1</string>
 </resources>
