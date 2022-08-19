@@ -12,4 +12,6 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-include ':app'
+//include ':compose_app'
+//include ':bottom_navigation_app'
+include ':tradition_app'

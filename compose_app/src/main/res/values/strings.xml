@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Jetpack全家桶</string>
+    <string name="plus">+1</string>
+    <string name="subtraction">-1</string>
+    <string name="tab_care">关心</string>
+    <string name="tab_track">轨迹</string>
+    <string name="tab_me">我的</string>
+</resources>
