@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.ViewModelProvider
 import com.lianwenhong.jetpackfamily.ui.theme.JacketpackFamilyTheme
 import com.lianwenhong.jetpackfamily.viewmodel.MainViewModel
 

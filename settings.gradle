@@ -12,6 +12,6 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-//include ':compose_app'
-//include ':bottom_navigation_app'
+rootProject.name = "JetpackFamily"
 include ':tradition_app'
+//include ':compose_app'
