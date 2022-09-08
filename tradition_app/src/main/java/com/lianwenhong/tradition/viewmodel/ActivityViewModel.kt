@@ -1,9 +1,6 @@
 package com.lianwenhong.tradition.viewmodel
 
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.lianwenhong.tradition.util.LogUtils
 
 /**

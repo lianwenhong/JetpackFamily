@@ -1,10 +1,14 @@
 package com.lianwenhong.tradition.ui
 
+import android.app.ProgressDialog.show
 import android.content.res.Configuration
 import android.os.Bundle
-import android.widget.Button
+import android.os.SystemClock
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.lianwenhong.tradition.R
 import com.lianwenhong.tradition.util.LogUtils
@@ -21,12 +25,15 @@ class MainActivity : BaseActivity<MainViewModel>() {
     private var seekBar: SeekBar? = null
     private var gotoFragment: TextView? = null
 
+    private var txtName: TextView? = null
+    private var btnChangeInMain: TextView? = null
+    private var btnChangeInOther: TextView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initView()
     }
-
 
     private fun initView() {
         txtActivity = findViewById(R.id.txt_number_activity)
@@ -39,8 +46,13 @@ class MainActivity : BaseActivity<MainViewModel>() {
         seekBar = findViewById(R.id.seek)
         gotoFragment = findViewById(R.id.btn_goto_fragment)
 
+        txtName = findViewById(R.id.txt_name)
+        btnChangeInMain = findViewById(R.id.btn_change_in_main)
+        btnChangeInOther = findViewById(R.id.btn_change_in_other)
+
         demoDataReserve()
         demoShareData()
+        demoLiveData()
     }
 
     private fun demoDataReserve() {
@@ -70,7 +82,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
             }
         })
         gotoFragment?.setOnClickListener {
-            val mainFragment = MainFragment(true)
+            val mainFragment = MainFragment(false)
             if (!mainFragment.isAdded) {
                 val transaction = supportFragmentManager.beginTransaction()
                 transaction.add(R.id.f_me11, mainFragment)//动态添加
@@ -80,40 +92,38 @@ class MainActivity : BaseActivity<MainViewModel>() {
         }
     }
 
+    private fun demoLiveData() {
+        viewModel?.userName?.observe(this) { txtName?.text = "NAME:$it" }
+        viewModel?.userName?.observe(this) {
+            Toast.makeText(this, "USERNAME改变", Toast.LENGTH_SHORT).show()
+        }
+        val observer = MyObserver()
+//        viewModel?.userName?.observe(this, observer)
+//        viewModel?.userName?.observe(MainFragment(true), observer)
+        btnChangeInMain?.setOnClickListener {
+            viewModel?.userName?.value = "MAIN"
+        }
+
+        btnChangeInOther?.setOnClickListener {
+            val thread = Thread {
+                viewModel?.userName?.postValue("OTHER")
+            }
+            SystemClock.sleep(2000)
+            thread.start()
+        }
+    }
+
+    class MyObserver : Observer<String> {
+        override fun onChanged(t: String?) {
+            LogUtils.d(" MY OBSERVER ")
+        }
+
+    }
+
     override fun onResume() {
         super.onResume()
         txtSeekValue?.text = "${viewModel?.seekValue}"
     }
-
-//    fun replaceFragment() {
-//        // 1.获取FragmentManager，在活动中可以直接通过调用getFragmentManager()方法得到
-//        val fm = supportFragmentManager
-//        // 2.开启一个事务，通过调用beginTransaction()方法开启
-//        val transaction = fm.beginTransaction();
-//        // 3.向容器内添加或替换碎片，一般使用replace()方法实现，需要传入容器的id和待添加的碎片实例
-//        transaction.replace(
-//            R.id.f_me,
-//            MainFragment(true)
-//        );  //fr_container不能为fragment布局，可使用线性布局相对布局等。
-//        // 4.使用addToBackStack()方法，将事务添加到返回栈中，填入的是用于描述返回栈的一个名字
-//        transaction.addToBackStack(null);
-//        // 5.提交事物,调用commit()方法来完成
-//        transaction.commit();
-//    }
-
-//    private fun addFragment() {
-//        if (!meFragment.isAdded) {
-//            val transaction = fragmentManager.beginTransaction()
-//            transaction.add(R.id.f_me, meFragment)//动态添加
-//            transaction.commit()//提交
-//        }
-//    }
-//
-//    private fun removeFragment() {
-//        val transaction = fragmentManager.beginTransaction()
-//        transaction.remove(meFragment)
-//        transaction.commit()//提交
-//    }
 
     /**
      * 只有manifest文件中该Activity设置android:configChanges="orientation|screenSize"时才会调用此回调，否则都是销毁重建不会走到这个回调

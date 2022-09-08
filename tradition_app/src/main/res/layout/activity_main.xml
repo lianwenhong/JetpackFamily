@@ -34,7 +34,7 @@
         android:layout_marginTop="10dp"
         android:background="@color/purple_200"
         android:padding="3dp"
-        android:text="跳转到MainFragment"
+        android:text="设置Number"
         android:textColor="@color/white"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,6 +71,46 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/seek" />
+
+    <TextView
+        android:id="@+id/txt_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="name"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_goto_fragment" />
+
+    <TextView
+        android:id="@+id/btn_change_in_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/purple_200"
+        android:padding="3dp"
+        android:text="主线程修改名称"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintRight_toLeftOf="@id/btn_change_in_other"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_name" />
+
+    <TextView
+        android:id="@+id/btn_change_in_other"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="50dp"
+        android:background="@color/purple_200"
+        android:padding="3dp"
+        android:text="子线程修改名称"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/btn_change_in_main"
+        app:layout_constraintTop_toBottomOf="@id/txt_name" />
 
     <FrameLayout
         android:id="@+id/f_me11"
