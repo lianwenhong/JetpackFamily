@@ -82,26 +82,43 @@ class MainActivity : BaseActivity<MainViewModel>() {
             }
         })
         gotoFragment?.setOnClickListener {
-            val mainFragment = MainFragment(false)
+            val mainFragment = MainFragment(true)
+            val transaction = supportFragmentManager.beginTransaction()
             if (!mainFragment.isAdded) {
-                val transaction = supportFragmentManager.beginTransaction()
                 transaction.add(R.id.f_me11, mainFragment)//动态添加
                 transaction.addToBackStack("main_fragment")
                 transaction.commit()//提交
             }
+
+//            验证Fragment的addToBackStack()方法
+//            val transaction1 = supportFragmentManager.beginTransaction()
+//            val secondFragment = SecondFragment()
+//            if (!secondFragment.isAdded) {
+//                transaction1.replace(R.id.f_me11, secondFragment)
+//                transaction1.addToBackStack(null)
+//                transaction1.commit()
+//            }
         }
     }
 
     private fun demoLiveData() {
-        viewModel?.userName?.observe(this) { txtName?.text = "NAME:$it" }
-        viewModel?.userName?.observe(this) {
-            Toast.makeText(this, "USERNAME改变", Toast.LENGTH_SHORT).show()
-        }
-        val observer = MyObserver()
-//        viewModel?.userName?.observe(this, observer)
-//        viewModel?.userName?.observe(MainFragment(true), observer)
+//        LiveData监听示例
+//        viewModel?.userName?.observe(this) { txtName?.text = "NAME:$it" }
+//        viewModel?.userName?.observe(this) {
+//            Toast.makeText(this, "USERNAME改变", Toast.LENGTH_SHORT).show()
+//        }
+
+//        同一个数据观察者不能绑定不同的LifecycleOwner示例
+//        val observer = MyObserver()
+//        viewModel?.userName?.observe(this) { txtName?.text = "NAME:$it" }
+//        viewModel?.userName?.observe(this) {
+//            Toast.makeText(this, "USERNAME改变", Toast.LENGTH_SHORT).show()
+//        }
         btnChangeInMain?.setOnClickListener {
             viewModel?.userName?.value = "MAIN"
+            viewModel?.userName?.observe(this) { txtName?.text = "NAME:$it" }
+//            永久性注册，不绑定页面生命周期
+//            viewModel?.userName?.observeForever{txtName?.text = "NAME:$it"}
         }
 
         btnChangeInOther?.setOnClickListener {
@@ -117,12 +134,6 @@ class MainActivity : BaseActivity<MainViewModel>() {
         override fun onChanged(t: String?) {
             LogUtils.d(" MY OBSERVER ")
         }
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        txtSeekValue?.text = "${viewModel?.seekValue}"
     }
 
     /**

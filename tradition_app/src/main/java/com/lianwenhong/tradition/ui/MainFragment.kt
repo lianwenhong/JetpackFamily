@@ -2,6 +2,7 @@ package com.lianwenhong.tradition.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +10,7 @@ import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import com.lianwenhong.tradition.R
 import com.lianwenhong.tradition.util.LogUtils
 import com.lianwenhong.tradition.viewmodel.MainFragmentViewModel
@@ -35,6 +33,7 @@ class MainFragment(override val useParentViewModel: Boolean) : BaseFragment<View
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_main, container, false)
+        val test: TextView = view.findViewById(R.id.id_test)
         txtSeekValue = view.findViewById(R.id.txt_seek_value)
         seekBar = view.findViewById(R.id.seek)
         if (useParentViewModel) {
@@ -64,12 +63,14 @@ class MainFragment(override val useParentViewModel: Boolean) : BaseFragment<View
             }
         })
         if (useParentViewModel) {
-            (fViewModel as MainViewModel).userName.observe(viewLifecycleOwner) {
-                Toast.makeText(
-                    context,
-                    "数据改变了",
-                    Toast.LENGTH_SHORT
-                ).show()
+                (fViewModel as MainViewModel).userName.observe(viewLifecycleOwner) {
+//                Toast.makeText(
+//                    context,
+//                    "数据改变了:$it",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+                LogUtils.d("数据改变，test:$test")
+                test.text = "$it"
             }
         }
         return view
@@ -83,9 +84,19 @@ class MainFragment(override val useParentViewModel: Boolean) : BaseFragment<View
         }
     }
 
+    override fun onDestroyView() {
+        LogUtils.d(" onDestroyView ")
+        (fViewModel as MainViewModel).userName.value = "lisi"
+        super.onDestroyView()
+
+    }
+
     override fun onDestroy() {
+//        SystemClock.sleep(2000)
+        LogUtils.d(" onDestroy ")
+        (fViewModel as MainViewModel).userName.value = "zhangsan"
         super.onDestroy()
-        LogUtils.d(" Destroy的时候viewModel:$fViewModel")
+//        LogUtils.d(" Destroy的时候viewModel:${(fViewModel as MainFragmentViewModel).abc.value}")
     }
 
 

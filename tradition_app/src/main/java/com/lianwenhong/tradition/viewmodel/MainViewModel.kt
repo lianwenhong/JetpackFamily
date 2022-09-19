@@ -20,6 +20,7 @@ class MainViewModel : ActivityViewModel() {
 
     override fun onCleared() {
         super.onCleared()
+        number = 999
     }
 
 }
